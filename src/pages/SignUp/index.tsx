@@ -12,10 +12,16 @@ import Button from '../../components/Button';
 
 import { Container, Content, Background } from './styles';
 
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback(async (data: object) => {
+  const handleSubmit = useCallback(async (data: FormData) => {
     try {
       formRef.current?.setErrors({});
 
@@ -24,7 +30,7 @@ const SignIn: React.FC = () => {
         email: Yup.string()
           .required('Email é obrigatório')
           .email('Digite um email válido'),
-        password: Yup.string().min(6, 'Deve ter no mínimo 6 digitos'),
+        password: Yup.string().min(6, 'Mínimo 6 digitos'),
       });
 
       await schema.validate(data, {
